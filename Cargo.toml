@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 pest = "2.6"
 pest_derive = "2.6"
+nom = "7.1.3"
