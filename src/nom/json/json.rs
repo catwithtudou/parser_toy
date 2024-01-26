@@ -30,13 +30,9 @@ fn whitespace(i: &str) -> IResult<&str, &str> {
 fn string(i: &str) -> IResult<&str, &str> {
     context(
         "string",
-        preceded(
-            char('\"'),
-            cut(terminated(
-                parse_str,
-                char('\"'),
-            ))))(i)
+        preceded(char('\"'), cut(terminated(parse_str, char('\"')))))(i)
 }
+
 
 // parse_str 单独字符串解析
 fn parse_str(i: &str) -> IResult<&str, &str> {
@@ -162,8 +158,7 @@ mod test_json {
     fn test_parse_json() {
         let data = "  { \"a\"\t: 42,
   \"b\": [ \"x\", \"y\", 12 ] ,
-  \"c\": { \"hello\" : \"world\"
-  }
+  \"c\": { \"hello\" : \"world\"}
   } ";
         println!("will try to parse valid JSON data:\n\n**********\n{}\n**********\n", data);
         //
@@ -172,8 +167,7 @@ mod test_json {
         //     **********
         // { "a" : 42,
         //     "b": [ "x", "y", 12 ] ,
-        //     "c": { "hello" : "world"
-        // }
+        //     "c": { "hello" : "world"}
         // }
         // **********
 

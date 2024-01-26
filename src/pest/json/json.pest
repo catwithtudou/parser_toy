@@ -1,0 +1,46 @@
+
+// 1. whitespace
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+
+// 2. number
+number = @{
+    "-"?
+    ~ ("0" | ASCII_NONZERO_DIGIT ~ ASCII_DIGIT*)
+    ~ ("." ~ ASCII_DIGIT*)?
+    ~ (^"e" ~ ("+"|"-")? ~ ASCII_DIGIT+)?
+}
+
+// 3. string
+string = ${ "\"" ~ inner ~ "\"" }
+inner = @{ char* }
+char = {
+    !( "\"" | "\\") ~ ANY
+    | "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t")
+    | "\\" ~ ("u" ~ ASCII_HEX_DIGIT{4})
+}
+
+// 4. boolean
+boolean = {"true" | "false"}
+
+// 5. null
+null = {"null"}
+
+// 6. array
+array = {
+    "[" ~ "]"|
+    "[" ~ value ~ ("," ~ value)* ~ "]"
+}
+
+// 7. object
+object = {
+    "{" ~ "}"|
+    "{" ~ pair ~ ("," ~ pair)* ~ "}"
+}
+pair = { string ~ ":" ~ value }
+
+
+// 8. json value
+value = _{ number | string | boolean | array | object | null}
+
+// 9. json
+json = _{ SOI ~ (object | array) ~ EOI}
