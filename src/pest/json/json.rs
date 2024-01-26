@@ -34,10 +34,10 @@ pub fn parse_json_value(pair: Pair<Rule>) -> JsonValue {
                 .map(|pair| {
                     let mut inner_rules = pair.into_inner();
                     let key = inner_rules
-                        .next()
+                        .next() // 得到 pair 规则
                         .unwrap()
                         .into_inner()
-                        .next()
+                        .next() // 得到 pair 规则的第一个 token pair 即 key
                         .unwrap()
                         .as_str();
                     let value = parse_json_value(inner_rules.next().unwrap());
