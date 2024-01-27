@@ -150,7 +150,7 @@ impl Commands {
                 builder.to_bytes()
             }
         };
-        log::debug!("{:?}",cmd);
+        debug!("{:?}",cmd);
         cmd
     }
 }

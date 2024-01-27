@@ -1,3 +1,5 @@
+
+
 use std::error::Error;
 
 use bytes::{BufMut, BytesMut};
@@ -5,10 +7,13 @@ use structopt::StructOpt;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
-use crate::nom::redis::command;
+use crate::nom::redis::{command, resp};
+
 
 pub async fn redis_cli() -> Result<(), Box<dyn Error>> {
-    println!("redis-cli start");
+    pretty_env_logger::init();
+    info!("redis-cli start");
+
 
     let mut stream = TcpStream::connect("127.0.0.1:6379").await?;
     let mut buf = [0u8; 1024];
@@ -25,7 +30,7 @@ pub async fn redis_cli() -> Result<(), Box<dyn Error>> {
     // read
     let n = reader.read(&mut buf).await?;
     resp.put(&buf[0..n]);
-    println!("{:?}", resp);
-
+    let reply = resp::Resp::from_resp(&resp);
+    println!("{}", reply);
     Ok(())
 }
