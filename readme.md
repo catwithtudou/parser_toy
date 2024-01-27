@@ -6,7 +6,7 @@
 
   - [x] hex_color
   - [x] json
-  - [ ] redis protocol
+  - [x] redis protocol
 
 - pest
 
